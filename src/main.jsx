@@ -178,46 +178,61 @@ function App() {
   }
 
   return (
-    <main>
+    <main className="site-shell">
       <header className="topbar">
-        <div className="brand">SAUDIMIGOS</div>
+        <a className="brand" href="/">
+          <span className="brand-mark">SA</span>
+          <span>SAUDIMIGOS</span>
+        </a>
 
         <div className="top-actions">
           <a
-            className="scan"
+            className="utility-link"
             href={SITE_CONFIG.explorerUrl}
             target="_blank"
             rel="noreferrer"
           >
-            CONTRACT <ExternalLink size={14} />
+            CONTRACT <ExternalLink size={12} />
           </a>
 
           <button
             className="connect"
             onClick={() => open({ view: isConnected ? "Account" : "Connect" })}
           >
-            <Wallet size={16} />
-            {isConnected ? shortAddress(address) : "CONNECT WALLET"}
+            <Wallet size={14} />
+            {isConnected ? shortAddress(address) : "CONNECT"}
           </button>
         </div>
       </header>
 
-      <section className="hero">
-        <img src="/banner.jpeg" alt="Saudimigos banner" />
+      <section className="hero-strip">
+        <img src="/banner.jpeg" alt="Saudimigos" />
+        <div className="hero-stamp">5000<br /><span>PIXEL SOULS</span></div>
       </section>
 
-      <section className="mint-section">
-        <div className="art-side">
+      <section className="mint-console">
+        <div className="preview-zone">
+          <div className="preview-topline">
+            <span>SAUDIMIGOS // FIELD TEST</span>
+            <strong>{String(slide + 1).padStart(2, "0")} / {String(nftImages.length).padStart(2, "0")}</strong>
+          </div>
+
           <div className="art-frame">
+            <div className="corner corner-tl" />
+            <div className="corner corner-tr" />
+            <div className="corner corner-bl" />
+            <div className="corner corner-br" />
+
             <img
               src={nftImages[slide]}
               alt={`Saudimigo preview ${slide + 1}`}
               className="nft-preview"
             />
+
             {loadingStats && (
               <div className="loading-overlay">
                 <img src={nftImages[0]} alt="" />
-                <strong>LOADING...</strong>
+                <span>LOADING...</span>
               </div>
             )}
 
@@ -228,7 +243,7 @@ function App() {
               }
               aria-label="Previous NFT"
             >
-              <ArrowLeft size={20} />
+              <ArrowLeft size={18} />
             </button>
 
             <button
@@ -236,125 +251,161 @@ function App() {
               onClick={() => setSlide((slide + 1) % nftImages.length)}
               aria-label="Next NFT"
             >
-              <ArrowRight size={20} />
+              <ArrowRight size={18} />
             </button>
+
+            <div className="edition-label">
+              <span>SAUDIMIGO</span>
+              <strong>#{String(slide + 1).padStart(4, "0")}</strong>
+            </div>
           </div>
 
-          <div className="dots">
-            {nftImages.map((_, index) => (
-              <button
-                key={index}
-                className={index === slide ? "dot active" : "dot"}
-                onClick={() => setSlide(index)}
-                aria-label={`Show NFT ${index + 1}`}
-              />
-            ))}
+          <div className="slider-bottom">
+            <div className="dots">
+              {nftImages.map((_, index) => (
+                <button
+                  key={index}
+                  className={index === slide ? "dot active" : "dot"}
+                  onClick={() => setSlide(index)}
+                  aria-label={`Show NFT ${index + 1}`}
+                />
+              ))}
+            </div>
+            <span>ARROW KEYS / SWIPE TO EXPLORE</span>
           </div>
         </div>
 
-        <div className="mint-card">
-          <div className="eyebrow">ROBINHOOD CHAIN</div>
-          <h1>SAUDIMIGOS</h1>
+        <div className="mint-zone">
+          <div className="zone-label">
+            <span>RH / 4663</span>
+            <span>ON-CHAIN MINT</span>
+          </div>
+
+          <div className="title-block">
+            <div className="mini-signal">◆</div>
+            <div>
+              <div className="eyebrow">ROBINHOOD CHAIN</div>
+              <h1>SAUDIMIGOS</h1>
+            </div>
+          </div>
+
           <p className="tagline">
-            Pixel characters from the desert.
-            <br />
-            5,000 Saudimigos. One collection.
+            Pixel characters from the desert.<br />
+            <b>One collection. 5,000 stories.</b>
           </p>
 
-          <div className="stats">
-            <div>
+          <div className="data-grid">
+            <div className="data-cell wide">
               <span>MINTED</span>
-              <strong>{minted.toLocaleString()} / {SITE_CONFIG.supply.toLocaleString()}</strong>
+              <strong>{minted.toLocaleString()}<small> / 5,000</small></strong>
             </div>
-            <div>
+            <div className="data-cell">
               <span>PRICE</span>
-              <strong>{price} ETH</strong>
+              <strong>{price}</strong>
+              <small>ETH</small>
             </div>
-            <div>
-              <span>WALLET LIMIT</span>
+            <div className="data-cell">
+              <span>WALLET</span>
               <strong>{SITE_CONFIG.walletLimit}</strong>
+              <small>MAX</small>
             </div>
           </div>
 
-          <div className="progress-label">
-            <span>MINT PROGRESS</span>
-            <strong>{minted.toLocaleString()} / {SITE_CONFIG.supply.toLocaleString()} MINTED</strong>
-          </div>
-          <div className="progress">
-            <span style={{ width: `${progress}%` }} />
+          <div className="progress-wrap">
+            <div className="progress-meta">
+              <span>MINT PROGRESS</span>
+              <strong>{progress.toFixed(2)}%</strong>
+            </div>
+            <div className="progress">
+              <span style={{ width: `${progress}%` }} />
+              <i />
+            </div>
           </div>
 
-          {isConnected && (
-            <div className="wallet-section">
-              <div className="wallet-stat">
+          {isConnected ? (
+            <div className="wallet-strip">
+              <div>
                 <span>YOUR MINTS</span>
                 <strong>{walletMinted} / {SITE_CONFIG.walletLimit}</strong>
               </div>
-              <div className="wallet-row">
-                <span>{shortAddress(address)}</span>
-                <span>{walletBalance} ETH</span>
+              <div>
+                <span>WALLET</span>
+                <strong>{shortAddress(address)}</strong>
+              </div>
+              <div>
+                <span>BALANCE</span>
+                <strong>{walletBalance} ETH</strong>
               </div>
               <a
-                className="wallet-link"
                 href={`${SITE_CONFIG.explorerBaseUrl}/address/${address}`}
                 target="_blank"
                 rel="noreferrer"
+                aria-label="View wallet"
               >
-                VIEW WALLET <ExternalLink size={13} />
+                ↗
               </a>
+            </div>
+          ) : (
+            <div className="wallet-strip offline">
+              <span>CONNECT WALLET TO SEE YOUR MINTS</span>
             </div>
           )}
 
-          <div className="quantity-label">QUANTITY</div>
-          <div className="quantity">
-            <button
-              onClick={() => changeQuantity(-1)}
-              disabled={busy || quantity <= 1}
-              aria-label="Decrease quantity"
-            >
-              <Minus size={18} />
-            </button>
-            <strong>{quantity}</strong>
-            <button
-              onClick={() => changeQuantity(1)}
-              disabled={busy}
-              aria-label="Increase quantity"
-            >
-              <Plus size={18} />
-            </button>
-          </div>
+          <div className="mint-controls">
+            <div className="quantity-head">
+              <span>SELECT QUANTITY</span>
+              <strong>{total} ETH TOTAL</strong>
+            </div>
 
-          <div className="quick-quantities">
-            {[5, 10, 25, 50].map((value) => (
+            <div className="quantity">
               <button
-                key={value}
-                onClick={() => setQuickQuantity(value)}
-                disabled={busy || walletMinted + value > SITE_CONFIG.walletLimit || minted + value > SITE_CONFIG.supply}
+                onClick={() => changeQuantity(-1)}
+                disabled={busy || quantity <= 1}
+                aria-label="Decrease quantity"
               >
-                {value}
+                <Minus size={17} />
               </button>
-            ))}
-            <button
-              onClick={() =>
-                setQuickQuantity(
-                  Math.max(
-                    1,
-                    Math.min(
-                      SITE_CONFIG.walletLimit - walletMinted,
-                      SITE_CONFIG.supply - minted
+              <strong>{String(quantity).padStart(2, "0")}</strong>
+              <button
+                onClick={() => changeQuantity(1)}
+                disabled={busy}
+                aria-label="Increase quantity"
+              >
+                <Plus size={17} />
+              </button>
+            </div>
+
+            <div className="quick-quantities">
+              {[5, 10, 25, 50].map((value) => (
+                <button
+                  key={value}
+                  onClick={() => setQuickQuantity(value)}
+                  disabled={
+                    busy ||
+                    walletMinted + value > SITE_CONFIG.walletLimit ||
+                    minted + value > SITE_CONFIG.supply
+                  }
+                >
+                  {value}
+                </button>
+              ))}
+              <button
+                onClick={() =>
+                  setQuickQuantity(
+                    Math.max(
+                      1,
+                      Math.min(
+                        SITE_CONFIG.walletLimit - walletMinted,
+                        SITE_CONFIG.supply - minted
+                      )
                     )
                   )
-                )
-              }
-              disabled={busy}
-            >
-              MAX
-            </button>
-          </div>
-
-          <div className="total">
-            <span>TOTAL</span>
-            <strong>{total} ETH</strong>
+                }
+                disabled={busy}
+              >
+                MAX
+              </button>
+            </div>
           </div>
 
           <button
@@ -362,21 +413,24 @@ function App() {
             onClick={handleMint}
             disabled={busy || minted >= SITE_CONFIG.supply || !mintEnabled}
           >
-            <Wallet size={19} />
-            {busy
-              ? "PROCESSING…"
-              : !mintEnabled
-                ? "MINT CLOSED"
-                : isConnected
-                  ? `MINT ${quantity}`
-                  : "CONNECT WALLET"}
+            <span className="mint-arrow">→</span>
+            <span>
+              {busy
+                ? "PROCESSING..."
+                : !mintEnabled
+                  ? "MINT CLOSED"
+                  : isConnected
+                    ? `MINT ${quantity}`
+                    : "CONNECT WALLET"}
+            </span>
+            <span className="mint-price">{total} ETH</span>
           </button>
 
           {status && <div className="status">{status}</div>}
 
           {successTx && (
             <div className="success-screen">
-              <div className="success-art">🎉</div>
+              <div className="success-icon">✦</div>
               <div>
                 <strong>YOU GOT YOUR SAUDIMIGO</strong>
                 <span>Transaction confirmed</span>
@@ -386,40 +440,33 @@ function App() {
                 target="_blank"
                 rel="noreferrer"
               >
-                VIEW TRANSACTION <ExternalLink size={13} />
+                VIEW TRANSACTION ↗
               </a>
             </div>
           )}
 
-          <div className="market-links">
+          <div className="console-links">
             <a href={SITE_CONFIG.openSeaUrl} target="_blank" rel="noreferrer">
-              VIEW COLLECTION <ExternalLink size={13} />
+              OPENSEA ↗
+            </a>
+            <a href={SITE_CONFIG.twitterUrl} target="_blank" rel="noreferrer">
+              X / SAUDIMIGOS ↗
             </a>
           </div>
 
           <div className="fine-print">
-            5% creator royalty · Max supply 5,000 · Mint on Robinhood Chain
+            5% ROYALTY · 5,000 SUPPLY · 0.00005 ETH MINT · ROBINHOOD CHAIN
           </div>
         </div>
       </section>
 
       <footer>
-        <span>SAUDIMIGOS</span>
-        <div className="footer-links">
-          <a href={SITE_CONFIG.twitterUrl} target="_blank" rel="noreferrer">
-            FOLLOW SAUDIMIGOS <ExternalLink size={13} />
-          </a>
-          <a
-            href={SITE_CONFIG.explorerUrl}
-          target="_blank"
-          rel="noreferrer"
-          >
-            VIEW CONTRACT <ExternalLink size={13} />
-          </a>
-        </div>
+        <span>SAUDIMIGOS © 2026</span>
+        <span>BUILT ON ROBINHOOD CHAIN</span>
       </footer>
     </main>
-  );
+  )
+
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(
