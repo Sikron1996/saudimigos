@@ -17,8 +17,8 @@ export const SITE_CONFIG = {
   explorerUrl: "https://robinhoodchain.blockscout.com/address/0x45d6e251b4A0076b04182B71805972B45BE0f128",
 
   // Replace these two URLs once the official collection/social pages are ready.
-  openSeaUrl: "https://opensea.io/",
-  twitterUrl: "https://x.com/",
+  openSeaUrl: "https://opensea.io/collection/saudimigo",
+  twitterUrl: "https://x.com/TheDELnaka",
 
   siteUrl: typeof window !== "undefined" ? window.location.origin : "https://saudimigo.vercel.app",
   supply: 5000,
