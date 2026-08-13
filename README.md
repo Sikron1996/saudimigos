@@ -37,3 +37,5 @@ Deploy the generated dist/ folder to Vercel, Netlify, or another static host.
 - X `FOLLOW SAUDIMIGOS` button (set the real profile URL in `src/config.js`)
 - Pixel loading overlay with supplied artwork
 - Mint success screen with transaction link
+
+- Compact unified slider + mint card layout with shared border and no gap
